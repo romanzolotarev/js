@@ -5,8 +5,8 @@ if (typeof define !== 'function') {
 define(function() {
   return {
     valueAtBit: function(num, bit) {
-      const n = num.toString(2);
-      const pos = n.length - bit;
+      var n = num.toString(2);
+      var pos = n.length - bit;
       return parseInt(n[pos], 2);
     },
 

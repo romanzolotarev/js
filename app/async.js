@@ -2,19 +2,31 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['jquery'], function($) {
+//
+// Using Promise and fetch instead of jQuery
+//
+define([], function() {
   return {
     async: function(value) {
-      return new Promise(resolve => resolve(value));
+      return new Promise(
+        function(resolve) { return resolve(value); }
+      );
     },
 
     manipulateRemoteData: function(url) {
-      const resolver = data => data.people.map(p => p.name);
+      function resolver(data) {
+        return data.people.map(
+          function(p) { return p.name; }
+        );
+      }
+
       return fetch(url)
-        .then(x => x.json())
-        .then(x => x.people)
-        .then(x => x.map(p => p.name))
-        .then(x => x.sort());
+        .then(function(x) { return x.json(); })
+        .then(function(x) { return x.people; })
+        .then(function(x) { return x.map(
+          function(p) { return p.name; }
+        ); })
+        .then(function(x) { return x.sort(); });
     }
   };
 });

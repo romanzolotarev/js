@@ -9,11 +9,12 @@ define(function() {
     },
 
     alterObjects: function(constructor, greeting) {
-      return Object.assign(constructor.prototype, { greeting });
+      return Object.assign(constructor.prototype, { greeting: greeting });
     },
 
     iterate: function(obj) {
-      return Object.keys(obj).map(x => x + ': ' + obj[x]);
+      return Object.keys(obj).map(
+        function(x) { return x + ': ' + obj[x]; });
     }
   };
 });

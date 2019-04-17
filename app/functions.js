@@ -13,35 +13,60 @@ define(function() {
     },
 
     functionFunction: function(str) {
-      return str2 => str + ', ' + str2;
+      return function(str2) { return str + ', ' + str2; };
     },
 
     makeClosures: function(arr, fn) {
-      return arr.map(x => () => fn(x));
+      return arr.map(function(x) {
+        return function() {
+          return fn(x);
+        };
+      }
+      );
     },
 
     partial: function(fn, str1, str2) {
-      return str3 => fn(str1, str2, str3);
+      return function(str3) {
+        return fn(str1, str2, str3);
+      };
     },
 
-    useArguments: function(...args) {
-      return args.reduce((acc, x) => acc + x, 0);
+    useArguments: function() {
+      var args = Array.prototype.slice.call(arguments);
+      return args.reduce(
+        function(acc, x) { return acc + x; }, 0
+      );
     },
 
-    callIt: function(fn, ...args) {
+    callIt: function(fn) {
+      var args = Array.prototype.slice.call(arguments, 1);
       fn.apply(null, args);
     },
 
-    partialUsingArguments: function(fn, ...xs) {
-      return (...ys) => fn.apply(null, [...xs, ...ys]);
+    partialUsingArguments: function(fn) {
+      var xs = Array.prototype.slice.call(arguments, 1);
+      return function() {
+        var ys = Array.prototype.slice.call(arguments);
+        return fn.apply(null, xs.concat(ys));
+      };
     },
 
     curryIt: function(fn) {
-      const byArity = {
+      var byArity = {
         0: fn,
-        1: x => fn(x),
-        2: x => y => fn(x, y),
-        3: x => y => z => fn(x, y, z)
+        1: function(x) { return fn(x); },
+        2: function(x) {
+          return function(y) {
+            return fn(x, y);
+          };
+        },
+        3: function(x) {
+          return function(y) {
+            return function(z) {
+              return fn(x, y, z);
+            };
+          };
+        }
       };
       return byArity[fn.length];
     }

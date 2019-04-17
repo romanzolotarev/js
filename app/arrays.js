@@ -9,15 +9,16 @@ define(function() {
     },
 
     sum: function(arr) {
-      return arr.reduce((arr, x) => arr + x, 0);
+      return arr.reduce(
+        function(arr, x) { return arr + x; }, 0);
     },
 
     remove: function(arr, item) {
-      return arr.filter(x => item !== x);
+      return arr.filter(function(x) { return item !== x; });
     },
 
     removeWithoutCopy: function(arr, item) {
-      let idx;
+      var idx;
       while (true) {
         idx = arr.indexOf(item);
         if (idx === -1) break;
@@ -53,31 +54,37 @@ define(function() {
     },
 
     count: function(arr, item) {
-      return arr.filter(x => item === x).length;
+      return arr.filter(
+        function(x) { return item === x; }
+      ).length;
     },
 
     duplicates: function(arr) {
-      const counters = arr.reduce(
-        (acc, x) => (acc[x] ? { ...acc, [x]: acc[x] + 1 } : { ...acc, [x]: 1 }),
-        {}
-      );
+      var counters = arr.reduce(
+        function(acc, x) {
+          var obj = {};
+          obj[x] = acc[x] ? acc[x] + 1 : 1;
+          return Object.assign(acc, obj);
+        }, {});
 
       return arr.reduce(
-        (acc, x) =>
-          counters[x] > 1 && acc.indexOf(x) === -1 ? acc.concat([x]) : acc,
-        []
-      );
+        function(acc, x) {
+          return (
+            counters[x] > 1 && acc.indexOf(x) === -1 ? acc.concat([x])
+              : acc
+          );
+        }, []);
     },
 
     square: function(arr) {
-      return arr.map(x => x * x);
+      return arr.map(function(x) { return x * x; });
     },
 
     findAllOccurrences: function(arr, target) {
       return arr.reduce(
-        (acc, x, idx) => (x === target ? acc.concat([idx]) : acc),
-        []
-      );
+        function(acc, x, idx) {
+          return x === target ? acc.concat([idx]) : acc;
+        }, []);
     }
   };
 });

@@ -10,10 +10,12 @@ define(function() {
         clearInterval(this.interval);
       };
 
-      this.interval = setInterval(() => {
-        console.log(this.current);
-        this.current++;
-        if (this.current > end) this.cancel();
+      var that = this;
+      this.interval = setInterval(
+        function() {
+        console.log(that.current);
+        that.current++;
+        if (that.current > end) that.cancel();
       }, 100);
 
       return this;

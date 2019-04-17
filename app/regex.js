@@ -9,8 +9,10 @@ define(function() {
     },
 
     containsRepeatingLetter: function(str) {
-      const alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
-      const pairs = alpha.map(x => x + x);
+      var alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
+      var pairs = alpha.map(function(x) {
+        return x + x;
+      });
       return str.match(new RegExp(pairs.join('|'), 'gi')) !== null;
     },
 
@@ -19,7 +21,7 @@ define(function() {
     },
 
     captureThreeNumbers: function(str) {
-      const first3 = str.match(/[0-9]{3}/);
+      var first3 = str.match(/[0-9]{3}/);
       return first3 === null ? false : first3[0];
     },
 
@@ -30,9 +32,7 @@ define(function() {
     isUSD: function(str) {
       return str.match(
         /^\$([0-9]{1,3},?){1}([0-9]{3},?){0,}(\.[0-9]{2})?$/g
-      ) !== null
-        ? true
-        : false;
+      ) !== null ? true : false;
     }
   };
 });
